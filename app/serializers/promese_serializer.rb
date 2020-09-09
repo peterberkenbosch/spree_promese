@@ -1,4 +1,6 @@
 class PromeseSerializer
+  include Promese::Logger
+
   attr_reader :record
 
   def initialize(record)

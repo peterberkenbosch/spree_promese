@@ -1,4 +1,5 @@
 class PromeseDeserializer
+  include Promese::Logger
 
   attr_reader :data
 

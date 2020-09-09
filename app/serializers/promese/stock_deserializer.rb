@@ -2,7 +2,12 @@ class Promese::StockDeserializer < PromeseDeserializer
 
   def persist
     data['message']['content']['product_stock'].each do |stock_item|
-      persist_stock_item stock_item
+      begin
+        persist_stock_item stock_item
+      rescue StandardError => e
+        logger.info e.message
+        logger.debug e.backtrace.join("\n")
+      end
     end
   end
 

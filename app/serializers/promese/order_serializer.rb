@@ -1,6 +1,7 @@
 class Promese::OrderSerializer < PromeseSerializer
 
   def serialize
+    begin
     {
         order: {
             order_id: record.number,
@@ -22,6 +23,10 @@ class Promese::OrderSerializer < PromeseSerializer
             order_rows: record.line_items.each_with_index.map(&method(:serialize_line_item))
         }
     }
+    rescue StandardError => e
+      logger.info e.message
+      logger.debug e.backtrace.join("\n")
+    end
   end
 
   def serialize_address(address)
