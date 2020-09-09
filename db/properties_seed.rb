@@ -1,7 +1,10 @@
 class PropertiesSeed
 
   def self.execute
+    Spree::Prototype.where(name: ['Promese', 'Promese global overrides (Configurations -> Promese settings)']).destroy_all
+
     promese_prototype = Spree::Prototype.create(name: 'Promese')
+    promese_global_prototype = Spree::Prototype.create(name: 'Promese global overrides (Configurations -> Promese settings)')
 
     properties = [
         'season',
@@ -11,7 +14,10 @@ class PropertiesSeed
         'article_sub_type',
         'material',
         'package_type',
-        'hs_code',
+        'hs_code'
+    ]
+
+    optional_properties = [
         'storage_type',
         'country_of_origin',
         'fragile',
@@ -21,6 +27,11 @@ class PropertiesSeed
 
     promese_prototype.properties.create(
         properties.map do |property|
+          {name: property, presentation: property.humanize}
+        end
+    )
+    promese_global_prototype.properties.create(
+        optional_properties.map do |property|
           {name: property, presentation: property.humanize}
         end
     )

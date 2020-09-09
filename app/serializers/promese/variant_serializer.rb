@@ -3,7 +3,6 @@ class Promese::VariantSerializer < PromeseSerializer
   def serialize
     {
         article: {
-            # action: 'CHG', Default value
             information: {
                 companyCode: PromeseSetting.instance.company_code,
                 # suffix: nil,

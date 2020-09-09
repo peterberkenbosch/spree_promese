@@ -1,7 +1,7 @@
 class PromeseSetting < ActiveRecord::Base
 
   def self.instance
-    self.class.first || self.class.create
+    self.first || self.create
   end
 
 end

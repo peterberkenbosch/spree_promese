@@ -12,7 +12,7 @@ module SpreePromese
       def run_migrations
         run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask('Would you like to run the migrations now? [Y/n]'))
         if run_migrations
-          run 'bundle exec rails db:migrate'
+          run 'bundle exec rake db:migrate'
         else
           puts 'Skipping rails db:migrate, don\'t forget to run it!'
         end
