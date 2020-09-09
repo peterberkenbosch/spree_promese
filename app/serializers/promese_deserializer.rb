@@ -2,7 +2,7 @@ class PromeseDeserializer
 
   attr_reader :data
 
-  def intialize(raw_data)
+  def initialize(raw_data)
     @data = JSON.parse(raw_data)
   end
 
