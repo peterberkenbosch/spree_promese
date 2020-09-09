@@ -146,7 +146,7 @@ class Promese::ProcessedOrdersDeserializer < PromeseDeserializer
 
   def persist
     data['message']['content']['processed_orders'].each do |processed_order|
-      order = Spree::Order.find(processed_order['order_id'])
+      order = Spree::Order.friendly.find(processed_order['order_id'])
       order.update(promese_processed_at: processed_order['process_date']) if order
     end
   end
