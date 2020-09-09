@@ -1,4 +1,4 @@
-class PropertiesSeed
+class PromeseSeed
 
   def self.execute
     Spree::Prototype.where(name: ['Promese', 'Promese global overrides (Configurations -> Promese settings)']).destroy_all

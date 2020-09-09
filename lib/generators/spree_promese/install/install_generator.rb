@@ -1,4 +1,4 @@
-require File.expand_path('../../../../../db/properties_seed.rb', __FILE__)
+require File.expand_path('../../../../../db/promese_seed.rb', __FILE__)
 
 module SpreePromese
   module Generators
@@ -19,7 +19,7 @@ module SpreePromese
       end
 
       def generate_property_prototype
-        PropertiesSeed.execute
+        PromeseSeed.execute
       end
     end
   end
