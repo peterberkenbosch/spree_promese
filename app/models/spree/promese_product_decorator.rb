@@ -1,7 +1,7 @@
 module PromeseProductDecorator
 
   def self.prepended(base)
-    base.after_save :export_to_promese, if: :saved_changes?
+    base.after_save :export_to_promese
   end
 
   def export_to_promese
