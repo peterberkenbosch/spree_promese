@@ -120,7 +120,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
       end
     end
     shipment = move_items(shipment_data) unless shipment
-    shipment.update(tracking: shipment_data['track_and_trace_nr'].first['value'])
+    shipment.update(tracking: shipment_data['track_and_trace_nr'].detect {|track| track['shipment_direction'] == 'ship'}['value'])
     shipment.ship!
   end
 

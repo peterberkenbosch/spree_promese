@@ -1,6 +1,5 @@
-class PromeseSeed
-
-  def self.execute
+class RunPromeseSeed < ActiveRecord::Migration
+  def change
     Spree::Prototype.where(name: ['Promese', 'Promese global overrides (Configurations -> Promese settings)']).destroy_all
 
     promese_prototype = Spree::Prototype.create(name: 'Promese')
@@ -36,5 +35,4 @@ class PromeseSeed
         end
     )
   end
-
 end

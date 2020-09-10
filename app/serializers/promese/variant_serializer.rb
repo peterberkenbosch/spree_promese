@@ -3,8 +3,8 @@ class Promese::VariantSerializer < PromeseSerializer
   def serialize
     begin
       {
-          article: {
-              information: {
+          articles: [
+              {
                   companyCode: PromeseSetting.instance.company_code,
                   # suffix: nil,
                   # prefix: nil,
@@ -43,7 +43,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   supplierName: record.product.property('supplier_name') || PromeseSetting.instance.supplier_name,
                   articleNumber: record.id,
               }
-          }
+          ]
       }
     rescue StandardError => e
       logger.error e.message

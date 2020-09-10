@@ -7,6 +7,18 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
+          <%= f.label :webshop_name %>
+          <%= f.text_field :webshop_name, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= f.label :webshop_id %>
+          <%= f.text_field :webshop_id, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
           <%= f.label :company_code %>
           <%= f.text_field :company_code, class: 'form-control' %>
         </div>
@@ -38,17 +50,18 @@
         <h2>Global settings</h2>
         <small>These setting can be overriden by product properties. See the promese prototype for possible options</small>
       </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= f.label :supplier_code %>
-          <%= f.text_field :supplier_code, class: 'form-control' %>
-        </div>
-      </div>
 
       <div class="col-md-6">
         <div class="form-group">
           <%= f.label :supplier_name %>
           <%= f.text_field :supplier_name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :supplier_code %>
+          <%= f.text_field :supplier_code, class: 'form-control' %>
         </div>
       </div>
 

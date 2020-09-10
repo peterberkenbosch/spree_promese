@@ -1,5 +1,3 @@
-require File.expand_path('../../../../../db/promese_seed.rb', __FILE__)
-
 module SpreePromese
   module Generators
     class InstallGenerator < Rails::Generators::Base
@@ -18,9 +16,6 @@ module SpreePromese
         end
       end
 
-      def generate_property_prototype
-        PromeseSeed.execute
-      end
     end
   end
 end
