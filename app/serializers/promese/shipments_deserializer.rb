@@ -92,8 +92,9 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
     data['message']['content']['order_status'].each do |shipment_data|
       begin
         persist_shipment shipment_data
+        logger.info "Persisted shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
       rescue StandardError => e
-        logger.info e.message
+        logger.error e.message
         logger.debug e.backtrace.join("\n")
       end
     end

@@ -16,7 +16,12 @@ class PromeseSerializer
   end
 
   def serialize
-    raise('serialize method needs to be defined in a promese serializer subclass')
+    begin
+      raise('serialize method needs to be defined in a promese serializer subclass')
+    rescue StandardError => e
+      logger.error 'Something went wrong in a serializer. No further information available since the subclass didnt catch the error'
+      logger.error e.message
+    end
   end
 
 end

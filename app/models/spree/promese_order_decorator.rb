@@ -13,13 +13,13 @@ module PromeseOrderDecorator
   end
 
   def export_to_promese
-    order_json = Promese::OrderSerializer.new(self).to_json
     client = Promese::Client.new
-    if client.export_order(order_json)
+    if client.export_order(self)
       update(promese_exported: true)
     end
   end
 
+  # Accepts an array of hashes {Spree::LineItem: instance => Integer: quantity}
   def refund_line_items(refund_items)
     payment = payments.where(state: ['completed', 'pending']).last
     mollie_order = ::Mollie::Order.get(payment.source.payment_id, {api_key: get_preference(:api_key)})

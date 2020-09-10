@@ -46,7 +46,7 @@ class Promese::VariantSerializer < PromeseSerializer
           }
       }
     rescue StandardError => e
-      logger.info e.message
+      logger.error e.message
       logger.debug e.backtrace.join("\n")
     end
   end
