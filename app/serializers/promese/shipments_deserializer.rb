@@ -94,6 +94,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
         persist_shipment shipment_data
         logger.info "Persisted shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
       rescue StandardError => e
+        logger.error "Somethign went wrong while persisting a shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
         logger.error e.message
         logger.debug e.backtrace.join("\n")
       end
@@ -146,6 +147,10 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
       }
     end
     @order.refund_line_items(refund_items)
+    refund_items.each do |line_item, cancelled_quantity|
+      line_item.decrement(:quantity, cancelled_quantity)
+      line_item.save
+    end
   end
 
 end
