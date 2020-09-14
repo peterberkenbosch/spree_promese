@@ -6,7 +6,7 @@ module Promese
 
     def export_article(article)
       json = Promese::VariantSerializer.new(article).to_json
-      resp = self.class.post('/logisiticItem', body: json)
+      resp = self.class.post('/logisticItem', body: json)
       if resp.success?
         logger.info "Exported article with sku #{article.sku}"
       else
