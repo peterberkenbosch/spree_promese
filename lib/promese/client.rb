@@ -5,12 +5,7 @@ module Promese
     base_uri PromeseSetting.instance.promese_endpoint
 
     def export_article(article)
-      if article.is_a?(Spree::Variant)
-        json = Promese::VariantSerializer.new(article).to_json
-      elsif article.is_a?(Spree::Product)
-        json = Promese::ProductSerializer.new(article).to_json
-      end
-
+      json = Promese::VariantSerializer.new(article).to_json
       resp = self.class.post('/logisticItem', body: json)
       if resp.success?
         logger.info "Exported #{article.class.to_s.demodulize} with sku #{article.sku}"
