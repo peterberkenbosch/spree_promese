@@ -5,6 +5,7 @@ module PromeseVariantDecorator
   end
 
   def export_to_promese
+    return if is_master? && product.variants.any?
     client = Promese::Client.new
     client.export_article(self)
   end
