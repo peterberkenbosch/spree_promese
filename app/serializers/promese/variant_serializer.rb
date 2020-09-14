@@ -8,7 +8,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   companyCode: PromeseSetting.instance.company_code,
                   # suffix: nil,
                   # prefix: nil,
-                  description1: record.description,
+                  description1: ActionView::Base.full_sanitizer.sanitize(record.description),
                   description2: record.options_text,
                   articleCode1: record.sku,
                   barcode: record.sku, # EAN CODE
