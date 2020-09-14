@@ -4,8 +4,7 @@ module Promese
     include HTTParty
     base_uri PromeseSetting.instance.promese_endpoint
 
-    def export_article(article)
-      json = Promese::VariantSerializer.new(article).to_json
+    def export_article(json)
       resp = self.class.post('/logisticItem', body: json)
       if resp.success?
         logger.info "Exported article with sku #{article.sku}"
@@ -16,8 +15,7 @@ module Promese
       end
     end
 
-    def export_order(order)
-      json = Promese::OrderSerializer.new(order).to_json
+    def export_order(json)
       resp = self.class.post('/outb2c', body: json)
       if resp.success?
         logger.info "Exported order with number #{order.number}"

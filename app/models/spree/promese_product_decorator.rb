@@ -6,7 +6,9 @@ module PromeseProductDecorator
 
   def export_to_promese
     if variants.any?
-      variants.all.each(&:export_to_promese)
+      client = Promese::Client.new
+      json = Promese::ProductSerializer.new(self).to_json
+      client.export_article(json)
     else
       master.export_to_promese
     end
@@ -19,10 +21,11 @@ module PromeseProductDecorator
       nil
     end
   end
+
   alias :size_tree_description :size_tree
 
   def promese_property(property_name)
-    product_properties.joins(:property).find_by(spree_properties: { id: Spree::Property.where(name: property_name).first }).try(:value)
+    product_properties.joins(:property).find_by(spree_properties: {id: Spree::Property.where(name: property_name).first}).try(:value)
   end
 
 end

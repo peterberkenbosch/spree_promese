@@ -6,7 +6,8 @@ module PromeseVariantDecorator
 
   def export_to_promese
     client = Promese::Client.new
-    client.export_article(self)
+    json = Promese::VariantSerializer.new(article).to_json
+    client.export_article(json)
   end
 
 end
