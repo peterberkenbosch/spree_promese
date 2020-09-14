@@ -1,7 +1,7 @@
 module PromeseVariantDecorator
 
   def self.prepended(base)
-    base.after_save :export_to_promese
+    base.after_commit :export_to_promese, on: [:update, :create]
   end
 
   def export_to_promese
