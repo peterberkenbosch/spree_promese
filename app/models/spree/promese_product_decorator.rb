@@ -7,8 +7,7 @@ module PromeseProductDecorator
   def export_to_promese
     if variants.any?
       client = Promese::Client.new
-      json = Promese::ProductSerializer.new(self).to_json
-      client.export_article(json)
+      client.export_article(self)
     else
       master.export_to_promese
     end

@@ -14,8 +14,7 @@ module PromeseOrderDecorator
 
   def export_to_promese
     client = Promese::Client.new
-    json = Promese::OrderSerializer.new(order).to_json
-    if client.export_order(json)
+    if client.export_order(self)
       update(promese_exported: true)
     end
   end

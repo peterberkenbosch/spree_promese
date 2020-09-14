@@ -4,10 +4,16 @@ module Promese
     include HTTParty
     base_uri PromeseSetting.instance.promese_endpoint
 
-    def export_article(json)
+    def export_article(article)
+      if article.is_a?(Spree::Variant)
+        json = Promese::VariantSerializer.new(article).to_json
+      elsif article.is_a?(Spree::Product)
+        json = Promese::ProductSerializer.new(article).to_json
+      end
+
       resp = self.class.post('/logisticItem', body: json)
       if resp.success?
-        logger.info "Exported article with sku #{article.sku}"
+        logger.info "Exported #{article.class.to_s.demodulize} with sku #{article.sku}"
       else
         logger.error "Failed to export order with number #{article.sku}."
         logger.error "Response body: #{response.body}"
@@ -15,7 +21,8 @@ module Promese
       end
     end
 
-    def export_order(json)
+    def export_order(order)
+      json = Promese::OrderSerializer.new(order).to_json
       resp = self.class.post('/outb2c', body: json)
       if resp.success?
         logger.info "Exported order with number #{order.number}"
