@@ -5,11 +5,11 @@ class Promese::VariantSerializer < PromeseSerializer
       {
           articles: [
               {
-                  companyCode: PromeseSetting.instance.company_code,
+                  # companyCode: PromeseSetting.instance.company_code,
                   # suffix: nil,
                   # prefix: nil,
-                  description1: ActionView::Base.full_sanitizer.sanitize(record.description),
-                  description2: record.options_text,
+                  description1: ActionView::Base.full_sanitizer.sanitize(record.description).limit(35),
+                  description2: record.option_values.pluck(:name).join(', '),
                   articleCode1: record.sku,
                   barcode: record.sku, # EAN CODE
                   articleCode2: record.product_id,
@@ -18,13 +18,13 @@ class Promese::VariantSerializer < PromeseSerializer
                   # colorSort: nil,
                   colorCode: record.option_values.joins(:option_type).where(spree_option_types: {name: PromeseSetting.instance.color_option_type}).first&.id,
                   colorDescription: record.option_values.joins(:option_type).where(spree_option_types: {name: PromeseSetting.instance.color_option_type}).first&.name,
-                  season: record.product.promese_property('season'),
+                  # season: record.product.promese_property('season'),
                   sizeCode: record.option_values.joins(:option_type).where(spree_option_types: {name: PromeseSetting.instance.size_option_type}).first&.id,
                   sizeDescription: record.option_values.joins(:option_type).where(spree_option_types: {name: PromeseSetting.instance.size_option_type}).first&.name,
                   sizeSort: record.position,
                   sizeTree: record.product.promese_property('size_tree') || record.product.size_tree,
                   sizeTreeDescription: record.product.promese_property('size_tree_description') || record.product.size_tree_description,
-                  articleType: record.product.promese_property('article_type'),
+                  articleType: record.product.promese_property('article_type') || 10,
                   articleSubtype: record.product.promese_property('article_sub_type'),
                   material: record.product.promese_property('material'),
                   insuranceValue: record.product.cost_price,
@@ -41,7 +41,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   # VATCode: nil,
                   supplierCodeExternal: record.product.promese_property('supplier_code') || PromeseSetting.instance.supplier_code,
                   supplierName: record.product.promese_property('supplier_name') || PromeseSetting.instance.supplier_name,
-                  articleNumber: record.id,
+                  # articleNumber: record.id,
               }
           ]
       }

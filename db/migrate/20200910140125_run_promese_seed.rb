@@ -6,7 +6,6 @@ class RunPromeseSeed < ActiveRecord::Migration
     promese_global_prototype = Spree::Prototype.create(name: 'Promese global overrides (Configurations -> Promese settings)')
 
     properties = [
-        'season',
         'size_tree',
         'size_tree_description',
         'article_type',
