@@ -13,6 +13,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   articleCode1: record.sku,
                   barcode: record.sku, # EAN CODE
                   articleCode2: record.product_id,
+                  styleCode: record.product_id,
                   # colorTree: nil,
                   # colorTreeDescription: nil,
                   # colorSort: nil,
@@ -41,7 +42,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   # VATCode: nil,
                   supplierCodeExternal: record.product.promese_property('supplier_code') || PromeseSetting.instance.supplier_code,
                   supplierName: record.product.promese_property('supplier_name') || PromeseSetting.instance.supplier_name,
-                  # articleNumber: record.id,
+                  articleNumber: record.id,
               }
           ]
       }

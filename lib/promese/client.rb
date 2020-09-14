@@ -16,8 +16,8 @@ module Promese
         logger.info "Exported #{article.class.to_s.demodulize} with sku #{article.sku}"
       else
         logger.error "Failed to export order with number #{article.sku}."
-        logger.error "Response body: #{response.body}"
-        logger.error "Response status: #{response.status}"
+        logger.error "Response body: #{resp.body}"
+        logger.error "Response status: #{resp.status}"
       end
     end
 
@@ -28,8 +28,8 @@ module Promese
         logger.info "Exported order with number #{order.number}"
       else
         logger.error "Failed to export order with number #{order.number}."
-        logger.error "Response body: #{response.body}"
-        logger.error "Response status: #{response.status}"
+        logger.error "Response body: #{resp.body}"
+        logger.error "Response status: #{resp.status}"
       end
     end
 
