@@ -10,7 +10,7 @@ class PromeseDeserializer
       folder_name = self.class.to_s.demodulize.underscore
       path = Rails.root.join("promese_archive/#{folder_name}")
       Dir.mkdir(path) unless File.exists?(path)
-      File.write(File.join(path, "#{Time.now.strftime('%Y%m%d%H%M%S')}.json"), raw_data)
+      File.write(File.join(path, "#{Time.now.strftime('%Y%m%d_%H%M%S_%3N')}.json"), raw_data)
     end
   end
 
