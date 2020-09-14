@@ -5,10 +5,13 @@ module PromeseProductDecorator
   end
 
   def export_to_promese
+    client = Promese::Client.new
     if variants.any?
-      variants.each &:export_to_promese
+      variants.each do |v|
+        client.export_article(v)
+      end
     else
-      master.export_to_promese
+      client.export_article(master)
     end
   end
 
