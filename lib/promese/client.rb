@@ -15,7 +15,7 @@ module Promese
       if resp.success?
         logger.info "Exported #{article.class.to_s.demodulize} with sku #{article.sku}"
       else
-        logger.error "Failed to export order with number #{article.sku}."
+        logger.error "Failed to export article with number #{article.sku}."
         logger.error "Response body: #{resp.body}"
         logger.error "Response status: #{resp.status}"
       end
