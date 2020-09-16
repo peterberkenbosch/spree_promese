@@ -4,12 +4,18 @@ module PromeseOrderDecorator
     base.after_commit :export_to_promese, if: :should_export_to_promese?
   end
 
+  def finalize!
+    super
+
+    export_to_promese if should_export_to_promese?
+  end
+
   def promese_processed?
     promese_processed_at.present? && promese_processed_at > Time.now
   end
 
   def should_export_to_promese?
-    completed? && !promese_exported? && shipment_state == 'ready' && (respond_to?(:paid_or_authorized?) ? paid_or_authorized? : paid?)
+    completed? && !promese_exported? && (respond_to?(:paid_or_authorized?) ? paid_or_authorized? : paid?)
   end
 
   def export_to_promese
