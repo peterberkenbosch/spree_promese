@@ -12,7 +12,7 @@ class Promese::OrderSerializer < PromeseSerializer
                   customer_invoice: serialize_address(record.bill_address),
                   customer_shipping: serialize_address(record.ship_address).merge({
                                                                                       customer_id: record.user.try(:promese_customer_id),
-                                                                                      order_date: record.completed_at.strftime('%Y-%m-%d'),
+                                                                                      order_date: record.completed_at.strftime('%Y-%m-%dT%H:%M:%S'),
                                                                                   }),
                   payment: {
                       price_total: record.total,
@@ -22,7 +22,7 @@ class Promese::OrderSerializer < PromeseSerializer
                       currency: record.currency
                   },
                   order_rows: record.line_items.each_with_index.map(&method(:serialize_line_item)),
-                  order_date: record.completed_at.strftime('%Y-%m-%d'),
+                  order_date: record.completed_at.strftime('%Y-%m-%dT%H:%M:%S'), #yyyy-MM-dd'T'hh:mm:ss
               }
           ]
       }
