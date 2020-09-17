@@ -28,7 +28,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   articleType: record.product.promese_property('article_type') || 10,
                   articleSubtype: record.product.promese_property('article_sub_type'),
                   material: record.product.promese_property('material'),
-                  insuranceValue: record.product.cost_price,
+                  insuranceValue: record.cost_price || record.price,
                   packagingType: record.product.promese_property('package_type') || 'ST',
                   releaseDate: record.product.available_on&.strftime('%Y-%m-%d'),
                   hsCode: record.product.promese_property('hs_code'),
