@@ -49,7 +49,6 @@ class Spree::Api::V1::PromeseWebserviceController < Spree::Api::BaseController
   private
 
   def handle_response(response)
-    puts response.error_messages.inspect
     if response.error_messages.any?
       render json: {
           error: 'Something went wrong while persisting. Please check your input or contact support',

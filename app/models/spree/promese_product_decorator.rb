@@ -16,13 +16,12 @@ module PromeseProductDecorator
   end
 
   def size_tree
-    if variants.any?
+    if variants.any? && PromeseSetting.instance.size_option_type
       "#{variants.first.option_value(PromeseSetting.instance.size_option_type)} - #{variants.last.option_value(PromeseSetting.instance.size_option_type)}"
     else
       nil
     end
   end
-
   alias :size_tree_description :size_tree
 
   def promese_property(property_name)

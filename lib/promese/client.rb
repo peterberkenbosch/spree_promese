@@ -5,6 +5,7 @@ module Promese
     base_uri PromeseSetting.instance.promese_endpoint
 
     def export_article(article)
+      return unless PromeseSetting.instance.promese_endpoint.present?
       json = Promese::VariantSerializer.new(article).to_json
       resp = self.class.post('/logisticItem', body: json)
       if resp.success?
@@ -17,6 +18,7 @@ module Promese
     end
 
     def export_order(order)
+      return unless PromeseSetting.instance.promese_endpoint.present?
       json = Promese::OrderSerializer.new(order).to_json
       resp = self.class.post('/outb2c', body: json)
       if resp.success?
