@@ -1,7 +1,7 @@
 module PromeseProductDecorator
 
   def self.prepended(base)
-    base.after_commit :export_to_promese, on: [:update, :create]
+    base.after_save :export_to_promese
   end
 
   def export_to_promese
