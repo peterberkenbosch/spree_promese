@@ -19,11 +19,11 @@ class Spree::Api::V1::PromeseWebserviceController < Spree::Api::BaseController
   end
 
   def retour_b2c
-    Promese::ReturnDeserializer.new(request.body).persist
+    Promese::ReturnDeserializer.new(request.raw_post).persist
   end
 
   def ship_b2c
-    Promese::ShipmentsDeserializer.new(request.body).persist
+    Promese::ShipmentsDeserializer.new(request.raw_post).persist
   end
 
   def ship_b2b
@@ -31,11 +31,11 @@ class Spree::Api::V1::PromeseWebserviceController < Spree::Api::BaseController
   end
 
   def stock_update
-    Promese::StockDeserializer.new(request.body).persist
+    Promese::StockDeserializer.new(request.raw_post).persist
   end
 
   def processed_orders
-    Promese::ProcessedOrdersDeserializer.new(request.body).persist
+    Promese::ProcessedOrdersDeserializer.new(request.raw_post).persist
   end
 
 end
