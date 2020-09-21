@@ -1,16 +1,22 @@
-module Promese
-  module Logger
-
-    attr_accessor :error_messages
-
-    def logger
-      @logger ||= ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(File.join(Rails.root, 'log', 'promese.log')))
-      @logger.formatter = ::Logger::Formatter.new
-      @logger
-    end
+class Promese::Logger < ActiveSupport::Logger
 
 
-
-
+  def error_messages
+    @error_messages ||= []
   end
+
+  def error(message)
+    save_error_message(message)
+    super
+  end
+
+  private
+
+  def save_error_message(message)
+    @error_messages ||= []
+    @error_messages << message
+  end
+
 end
+
+

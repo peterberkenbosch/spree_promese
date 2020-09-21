@@ -19,11 +19,15 @@ class Spree::Api::V1::PromeseWebserviceController < Spree::Api::BaseController
   end
 
   def retour_b2c
-    Promese::ReturnDeserializer.new(request.raw_post).persist
+    deserializer = Promese::ReturnDeserializer.new(request.raw_post)
+    deserializer.persist
+    handle_response(deserializer)
   end
 
   def ship_b2c
-    Promese::ShipmentsDeserializer.new(request.raw_post).persist
+    deserializer = Promese::ShipmentsDeserializer.new(request.raw_post)
+    deserializer.persist
+    handle_response(deserializer)
   end
 
   def ship_b2b
@@ -31,11 +35,30 @@ class Spree::Api::V1::PromeseWebserviceController < Spree::Api::BaseController
   end
 
   def stock_update
-    Promese::StockDeserializer.new(request.raw_post).persist
+    deserializer = Promese::StockDeserializer.new(request.raw_post)
+    deserializer.persist
+    handle_response(deserializer)
   end
 
   def processed_orders
-    Promese::ProcessedOrdersDeserializer.new(request.raw_post).persist
+    deserializer = Promese::ProcessedOrdersDeserializer.new(request.raw_post)
+    deserializer.persist
+    handle_response(deserializer)
+  end
+
+  private
+
+  def handle_response(response)
+    puts response.error_messages.inspect
+    if response.error_messages.any?
+      render json: {
+          error: 'Something went wrong while persisting. Please check your input or contact support',
+          errors: response.error_messages
+      }, status: 500
+    else
+      head :ok
+    end
+
   end
 
 end

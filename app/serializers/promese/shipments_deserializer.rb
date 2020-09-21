@@ -94,7 +94,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
         persist_shipment shipment_data
         logger.info "Persisted shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
       rescue StandardError => e
-        logger.error "Somethign went wrong while persisting a shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
+        logger.error "Something went wrong while persisting a shipment for order #{shipment_data['order_id']} with status #{shipment_data['status']}"
         logger.error e.message
         logger.debug e.backtrace.join("\n")
       end
@@ -116,7 +116,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
   def ship_items(shipment_data)
     shipment = @order.shipments.detect do |s|
       shipment_data['order_rows'].all? do |order_row|
-        s.inventory_units.joins(:variant, :line_item).exists?(spree_variants: {sku: order_row['sku']}, quantity: order_row['qty_delivered'])
+        s.inventory_units.joins(:variant, :line_item).exists?(spree_variants: {sku: order_row['sku']}, spree_line_items: {quantity: order_row['qty_delivered']})
       end
     end
     shipment = move_items(shipment_data) unless shipment

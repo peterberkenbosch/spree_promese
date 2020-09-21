@@ -1,6 +1,6 @@
 module Promese
   class Client
-    include Promese::Logger
+    include Promese::Logging
     include HTTParty
     base_uri PromeseSetting.instance.promese_endpoint
 

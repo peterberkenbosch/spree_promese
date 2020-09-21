@@ -1,5 +1,5 @@
 class PromeseSerializer
-  include Promese::Logger
+  include Promese::Logging
 
   attr_reader :record
 
