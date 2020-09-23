@@ -12,11 +12,11 @@ class Promese::StockDeserializer < PromeseDeserializer
     end
   end
 
-  def persist_stock_item(stock_item)
-    variant = Spree::Variant.find_by(sku: stock_item['product_id'])
+  def persist_stock_item(stock_data)
+    variant = Spree::Variant.find_by(sku: stock_data['product_id'])
     stock_item = variant.stock_items.first
-    stock = stock_item['quantity']
-    stock -= unprocessed_stock(stock_item)
+    stock = stock_data['quantity']
+    stock -= unprocessed_stock(stock_data)
     stock = 0 if stock < 0
 
     # Update stock unless we have negative stock and a 0 stock is coming in. Cannot insert negative stock.
