@@ -2,6 +2,8 @@ module PromeseOrderDecorator
 
   def self.prepended(base)
     base.after_commit :export_to_promese, if: :should_export_to_promese?
+
+    base.include Promese::Logging
   end
 
   def finalize!
@@ -36,6 +38,10 @@ module PromeseOrderDecorator
       {id: line.id, quantity: refund_quantity} if line
     end.compact
     mollie_order.refund!({lines: mollie_order_refund_lines, api_key: api_key})
+  rescue Mollie::Exception => e
+    logger.error "Unable to create refund for #{mollie_order_refund_lines}, order: #{number}"
+    logger.debug e.message
+    logger.debug e.backtrace.join("\n")
   end
 
 end

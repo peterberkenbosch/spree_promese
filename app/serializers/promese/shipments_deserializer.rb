@@ -120,7 +120,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
 
   def ship_items(shipment_data)
     shipment = @order.shipments.detect do |s|
-      shipment_data['order_rows'].all? do |order_row|
+      shipment_data['order_rows'].select {|r| r['qty_delivered'] > 0}.all? do |order_row|
         s.manifest.detect do |manifest_item|
           manifest_item.variant.sku == order_row['sku']
           manifest_item.states['on_hand'] == order_row['qty_delivered']
