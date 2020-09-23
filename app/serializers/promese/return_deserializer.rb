@@ -29,11 +29,10 @@ class Promese::ReturnDeserializer < PromeseDeserializer
   def persist
     begin
       @order = Spree::Order.friendly.find(data['shipmentId'])
-      returned_line_items = data['returnItems'].map do |return_item_data|
-        {
-            order.line_items.joins(:variant).find_by(spree_variants: {sku: return_item_data['eanCode']}) => return_item_data['quantity']
-        }
-      end
+      returned_line_items = data['returnItems'].each_with_object({}) do |return_item_data, hash|
+        return if return_item_data['returnStatus'] != 'GOOD'
+        hash[order.line_items.joins(:variant).find_by(spree_variants: {sku: return_item_data['eanCode']})] = return_item_data['quantity']
+      end.compact
       default_stock_location = Spree::StockLocation.order_default.first
 
       ra = order.return_authorizations.create(stock_location: default_stock_location, reason: Spree::ReturnAuthorizationReason.first)
