@@ -38,7 +38,7 @@ class Promese::ReturnDeserializer < PromeseDeserializer
 
       ra = order.return_authorizations.create(stock_location: default_stock_location, reason: Spree::ReturnAuthorizationReason.first)
       returned_line_items.each do |line_item, returned_quantity|
-        ra.return_items.create(inventory_unit: order.inventory_units.find_by(line_item: line_item, state: :shipped), return_quantity: returned_quantity)
+        ra.return_items.create(inventory_unit: order.inventory_units.find_by(line_item_id: line_item.id, state: :shipped), return_quantity: returned_quantity)
       end
       cr = Spree::CustomerReturn.new(stock_location: default_stock_location)
       cr.return_items = ra.return_items
