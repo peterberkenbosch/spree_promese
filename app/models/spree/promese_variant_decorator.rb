@@ -1,7 +1,9 @@
 module PromeseVariantDecorator
 
+  attr_accessor :skip_promese_export
+
   def self.prepended(base)
-    base.after_save :export_to_promese
+    base.after_save :export_to_promese, unless: :skip_promese_export
   end
 
   def export_to_promese
