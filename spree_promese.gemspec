@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'spree_backend', spree_version
   s.add_dependency 'spree_extension'
   s.add_dependency 'httparty'
+  s.add_dependency 'sidekiq'
 
   s.add_development_dependency 'spree_dev_tools'
   s.add_development_dependency 'sqlite3', '~> 1.3.6'

@@ -1,9 +1,8 @@
 module PromeseOrderDecorator
 
   def self.prepended(base)
-    base.after_commit :export_to_promese, if: :should_export_to_promese?
-
     base.include Promese::Logging
+    base.include PromeseExportable
   end
 
   def finalize!
@@ -20,7 +19,7 @@ module PromeseOrderDecorator
     completed? && !promese_exported? && (respond_to?(:paid_or_authorized?) ? paid_or_authorized? : paid?)
   end
 
-  def export_to_promese
+  def promese_export
     client = Promese::Client.new
     if client.export_order(self)
       update(promese_exported: true)

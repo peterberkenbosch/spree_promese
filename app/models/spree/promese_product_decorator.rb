@@ -1,10 +1,14 @@
 module PromeseProductDecorator
 
   def self.prepended(base)
-    base.after_save :export_to_promese
+    base.include PromeseExportable
   end
 
-  def export_to_promese
+  def should_export_to_promese?
+    self.available?
+  end
+
+  def promese_export
     client = Promese::Client.new
     if variants.any?
       variants.each do |v|
@@ -22,6 +26,7 @@ module PromeseProductDecorator
       nil
     end
   end
+
   alias :size_tree_description :size_tree
 
   def promese_property(property_name)
