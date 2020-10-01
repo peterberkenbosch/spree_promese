@@ -19,10 +19,22 @@ module PromeseOrderDecorator
     completed? && !promese_exported? && (respond_to?(:paid_or_authorized?) ? paid_or_authorized? : paid?)
   end
 
-  def promese_export
+  def persist_to_promese
     client = Promese::Client.new
     if client.export_order(self)
       update(promese_exported: true)
+    end
+  end
+
+  def export_to_promese
+    Rails.logger.info "EXPORTING #{self.class.to_s} with ID #{self.id}"
+    time = Time.now
+    if time.hour <= 6 || (self.is_a?(Spree::Order) && PromeseSetting.instance.export_orders_from.present? && Time.now < PromeseSetting.instance.export_orders_from)
+      delayed_time = Time.parse('7:30')
+      delayed_time = PromeseSetting.instance.export_orders_from if delayed_time < PromeseSetting.instance.export_orders_from
+      export_to_promese_at(delayed_time.to_time)
+    else
+      persist_to_promese
     end
   end
 

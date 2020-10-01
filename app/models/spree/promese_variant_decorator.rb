@@ -10,7 +10,7 @@ module PromeseVariantDecorator
     !(is_master? && product.variants.any?)
   end
 
-  def promese_export
+  def persist_to_promese
     client = Promese::Client.new
     client.export_article(self)
   end

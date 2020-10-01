@@ -8,7 +8,7 @@ module PromeseProductDecorator
     self.available?
   end
 
-  def promese_export
+  def persist_to_promese
     client = Promese::Client.new
     if variants.any?
       variants.each do |v|

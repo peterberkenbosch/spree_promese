@@ -12,7 +12,8 @@ class RunPromeseSeed < ActiveRecord::Migration
         'article_sub_type',
         'material',
         'package_type',
-        'hs_code'
+        'hs_code',
+        'style_code'
     ]
 
     optional_properties = [

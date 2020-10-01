@@ -19,7 +19,7 @@ module PromeseExportable
     if time.hour <= 6
       export_to_promese_at(Time.parse('7:30'))
     else
-      promese_export
+      persist_to_promese
     end
   end
 
