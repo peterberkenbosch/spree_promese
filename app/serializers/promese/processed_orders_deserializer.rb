@@ -147,9 +147,11 @@ class Promese::ProcessedOrdersDeserializer < PromeseDeserializer
   def persist
     data['message']['content']['processed_orders'].each do |processed_order|
       begin
-        order = Spree::Order.friendly.find(processed_order['order_id'])
-        order.update(promese_processed_at: processed_order['process_date']) if order
-        logger.info "Persisted processed order #{order.number}"
+        order_number, shipment_number = processed_order['order_id'].split('-')
+        @order = Spree::Order.friendly.find(order_number)
+        @shipment = Spree::Shipment.friendly.find(shipment_number) if shipment_number
+        @shipment.update(promese_processed_at: processed_order['process_date']) if order
+        logger.info "Persisted processed order #{@shipment.number}"
       rescue StandardError => e
         logger.error e.message
         logger.debug e.backtrace.join("\n")
