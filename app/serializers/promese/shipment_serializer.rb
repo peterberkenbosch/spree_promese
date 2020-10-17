@@ -18,7 +18,7 @@ class Promese::ShipmentSerializer < PromeseSerializer
                       price_total: record.item_cost + record.discounted_cost,
                       price_shipping_incl: record.item_cost + record.discounted_cost,
                       price_shipping_excl: record.item_cost,
-                      price_discount: 0,
+                      price_discount: record.cost - record.discounted_cost,
                       currency: record.order.currency
                   },
                   order_rows: record.line_items.each_with_index.map(&method(:serialize_line_item)),
