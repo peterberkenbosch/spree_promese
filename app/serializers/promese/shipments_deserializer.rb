@@ -104,12 +104,13 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
   private
 
   def persist_shipment(shipment_data)
-    @order = Spree::Order.friendly.find(shipment_data['order_id'])
+    order_number, shipment_number = shipment_data['order_id'].split('-')
+    @order = Spree::Order.friendly.find(order_number)
+    @shipment = Spree::Shipment.friendly.find(shipment_number) if shipment_number
+
     case shipment_data['status']
     when 'ShipComplete', 'ShipPartial'
-      if shipment_data['order_rows'].any? do |order_row|
-        order_row['qty_cancelled'] > 0
-      end
+      if shipment_data['order_rows'].any? { |order_row| order_row['qty_cancelled'] > 0 }
         cancel_items(shipment_data)
       end
       ship_items(shipment_data)
@@ -119,7 +120,14 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
   end
 
   def ship_items(shipment_data)
-    shipment = @order.shipments.detect do |s|
+    find_shipment(shipment_data) unless @shipment
+
+    @shipment.update(tracking: shipment_data['track_and_trace_nr'].detect { |track| track['shipment_direction'] == 'ship' }['value'])
+    @shipment.ship!
+  end
+
+  def find_shipment(shipment_data)
+    @shipment = @order.shipments.detect do |s|
       shipment_data['order_rows'].select {|r| r['qty_delivered'] > 0}.all? do |order_row|
         s.manifest.detect do |manifest_item|
           manifest_item.variant.sku == order_row['sku']
@@ -127,9 +135,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
         end
       end
     end
-    shipment = move_items(shipment_data) unless shipment
-    shipment.update(tracking: shipment_data['track_and_trace_nr'].detect { |track| track['shipment_direction'] == 'ship' }['value'])
-    shipment.ship!
+    @shipment = move_items(shipment_data) unless @shipment
   end
 
   # Create a new shipment with the items to be shipped and return it.

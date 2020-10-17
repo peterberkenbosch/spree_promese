@@ -17,9 +17,9 @@ module Promese
       end
     end
 
-    def export_order(order)
+    def export_shipment(order)
       return unless PromeseSetting.instance.promese_endpoint.present?
-      json = Promese::OrderSerializer.new(order).to_json
+      json = Promese::ShipmentSerializer.new(order).to_json
       resp = self.class.post('/outb2c', body: json)
       if resp.success?
         logger.info "Exported order with number #{order.number}"

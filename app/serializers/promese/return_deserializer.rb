@@ -28,7 +28,10 @@ class Promese::ReturnDeserializer < PromeseDeserializer
 
   def persist
     begin
-      @order = Spree::Order.friendly.find(data['shipmentId'])
+      order_number, shipment_number = shipment_data['order_id'].split('-')
+      @order = Spree::Order.friendly.find(order_number)
+      @shipment = Spree::Shipment.friendly.find(shipment_number) if shipment_number
+
       returned_line_items = data['returnItems'].each_with_object({}) do |return_item_data, hash|
         next if return_item_data['returnStatus'] != 'GOOD'
         hash[order.line_items.joins(:variant).find_by(spree_variants: {sku: return_item_data['eanCode']})] = return_item_data['quantity']
