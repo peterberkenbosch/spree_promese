@@ -2,7 +2,7 @@ module Promese
   class Client
     include Promese::Logging
     include HTTParty
-    base_uri PromeseSetting.instance.promese_endpoint
+    base_uri PromeseSetting.instance&.promese_endpoint
 
     def export_article(article)
       return unless PromeseSetting.instance.promese_endpoint.present?
