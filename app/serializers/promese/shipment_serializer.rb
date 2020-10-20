@@ -8,7 +8,7 @@ class Promese::ShipmentSerializer < PromeseSerializer
           },
           content: [
               {
-                  order_id: "#{record.order.number}-#{record.number}",
+                  order_id: record.number,
                   customer_invoice: serialize_address(record.order.bill_address),
                   customer_shipping: serialize_address(record.order.ship_address).merge({
                                                                                       customer_id: record.order.user.try(:promese_customer_id),

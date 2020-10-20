@@ -4,8 +4,7 @@ module PromeseShipmentDecorator
     base.include Promese::Logging
     base.include PromeseExportable
 
-    base.state_machine.after_transition to: :ready, do: :export_to_promese
-    base.after_commit :export_to_promese
+    base.state_machine.after_transition on: :ready, do: :export_to_promese
   end
   def promese_processed?
     promese_processed_at.present? && promese_processed_at > Time.now
