@@ -6,12 +6,18 @@ module PromeseShipmentDecorator
 
     base.state_machine.after_transition on: :ready, do: :export_to_promese
   end
+
   def promese_processed?
     promese_processed_at.present? && promese_processed_at > Time.now
   end
 
   def should_export_to_promese?
-    order.completed? && !promese_exported? && determine_state(order) == 'ready'
+    ready? && !promese_exported? && order.completed? && order.paid_or_authorized?
+  end
+
+  def update!(order)
+    super
+    export_to_promese
   end
 
   def export_to_promese
