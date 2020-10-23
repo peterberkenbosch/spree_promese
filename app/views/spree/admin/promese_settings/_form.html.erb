@@ -87,6 +87,15 @@
           <% end %>
         </div>
       </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :log_datafiles do %>
+            <%= f.check_box :log_datafiles %>
+            <%= Spree.t(:log_datafiles) %>
+          <% end %>
+        </div>
+      </div>
     </div>
 
     <div class="row">

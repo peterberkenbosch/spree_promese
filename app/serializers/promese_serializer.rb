@@ -6,7 +6,7 @@ class PromeseSerializer
   def initialize(record)
     @record = record
 
-    unless Rails.env.production?
+    if PromeseSetting.instance.log_datafiles?
       folder_name = self.class.to_s.demodulize.underscore
       path = Rails.root.join("promese_archive/#{folder_name}")
       Dir.mkdir(path) unless File.exists?(path)
