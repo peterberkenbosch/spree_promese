@@ -105,7 +105,7 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
 
   def persist_shipment(shipment_data)
     shipment_number = shipment_data['order_id']
-    @shipment = Spree::Shipment.friendly.find(shipment_number)
+    @shipment = Spree::Shipment.find_by(number: shipment_number)
     @order = @shipment&.order || Spree::Order.friendly.find(shipment_number)
 
     case shipment_data['status']
