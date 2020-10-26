@@ -56,7 +56,7 @@ class Promese::ReturnDeserializer < PromeseDeserializer
       ri.save!
       ri.perform!
 
-      logger.info "Imported returns for order #{@order.number}. Returned items: #{returned_line_items.keys.map {|l| l.sku}.to_sentence}"
+      logger.info "Imported returns for order #{order.number}. Returned items: #{returned_line_items.keys.map {|l| l.sku}.to_sentence}"
     rescue StandardError => e
       logger.error "Something went wrong while importing a return for order #{data['shipmentId']}"
       logger.error e.message

@@ -157,7 +157,7 @@ class Promese::ProcessedOrdersDeserializer < PromeseDeserializer
           @shipment.update(promese_processed_at: processed_order['process_date'])
         end
 
-        logger.info "Persisted processed order #{@shipment.number}"
+        logger.info "Persisted processed order #{processed_order['order_id']}"
       rescue StandardError => e
         logger.error e.message
         logger.debug e.backtrace.join("\n")
