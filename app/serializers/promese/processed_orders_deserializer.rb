@@ -150,7 +150,13 @@ class Promese::ProcessedOrdersDeserializer < PromeseDeserializer
         shipment_number = processed_order['order_id']
         @shipment = Spree::Shipment.friendly.find_by(number: shipment_number)
         @order = @shipment&.order || Spree::Order.friendly.find(shipment_number)
-        @shipment.update(promese_processed_at: processed_order['process_date'])
+        if @shipment.blank?
+          @order.update(promese_processed_at: processed_order['process_date'])
+          @order.shipments.update_all(promese_processed_at: processed_order['process_date'])
+        else
+          @shipment.update(promese_processed_at: processed_order['process_date'])
+        end
+
         logger.info "Persisted processed order #{@shipment.number}"
       rescue StandardError => e
         logger.error e.message
