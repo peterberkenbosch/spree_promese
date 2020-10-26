@@ -165,10 +165,11 @@ class Promese::ShipmentsDeserializer < PromeseDeserializer
 
   def cancel_items(shipment_data)
     refund_items = shipment_data['order_rows'].each_with_object({}) do |order_row, hash|
-      hash[@order.line_items.joins(:variant).find_by(spree_variants: {sku: order_row['sku']})] = order_row['qty_cancelled']
+      line_item = @order.line_items.joins(:variant).find_by(spree_variants: {sku: order_row['sku']})
+      hash[line_item] = order_row['qty_cancelled'] if line_item
     end
     @order.refund_line_items(refund_items)
-    refund_items.each do |line_item, cancelled_quantity|
+    refund_items.compact.each do |line_item, cancelled_quantity|
       line_item.decrement(:quantity, cancelled_quantity)
       line_item.save
     end
