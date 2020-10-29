@@ -20,7 +20,7 @@ class Promese::StockDeserializer < PromeseDeserializer
     stock = 0 if stock < 0
 
     # Update stock unless we have negative stock and a 0 stock is coming in. Cannot insert negative stock.
-    stock_item.set_count_on_hand(stock) unless stock == 0 && stock_item.count_on_hand < 0
+    stock_item.set_count_on_hand(stock) unless stock == 0 && stock_item.count_on_hand <= 0
   end
 
   def unprocessed_stock(stock_item)
