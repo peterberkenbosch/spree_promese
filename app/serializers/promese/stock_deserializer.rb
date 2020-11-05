@@ -27,7 +27,7 @@ class Promese::StockDeserializer < PromeseDeserializer
     # sum the quantity of line items that are exported but not yet processed by promese. We can deduct this from the incoming stock data to get the most accurate current stock data
     Spree::LineItem
         .joins(:variant, :order => :shipments)
-        .where(spree_shipments: {promese_exported: true, promese_processed_at: nil}, spree_variants: {sku: stock_item['product_id']})
+        .where(spree_shipments: {promese_exported: true, promese_processed_at: nil, state: :ready}, spree_variants: {sku: stock_item['product_id']})
         .sum(:quantity)
   end
 
