@@ -149,7 +149,7 @@ class Promese::ProcessedOrdersDeserializer < PromeseDeserializer
       begin
         shipment_number = processed_order['order_id']
         @shipment = Spree::Shipment.friendly.find_by(number: shipment_number)
-        @order = @shipment&.order || Spree::Order.friendly.find(shipment_number)
+        @order = @shipment&.order || Spree::Order.find_by(number: shipment_number)
         if @shipment.blank?
           @order.update(promese_processed_at: processed_order['process_date'])
           @order.shipments.update_all(promese_processed_at: processed_order['process_date'])

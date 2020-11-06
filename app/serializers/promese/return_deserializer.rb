@@ -30,7 +30,7 @@ class Promese::ReturnDeserializer < PromeseDeserializer
     begin
       shipment_number = data['shipmentId']
       @shipment = Spree::Shipment.find_by(number: shipment_number)
-      order = @shipment&.order || Spree::Order.friendly.find(shipment_number)
+      order = @shipment&.order || Spree::Order.find_by(number: shipment_number)
 
       returned_line_items = data['returnItems'].each_with_object({}) do |return_item_data, hash|
         next if return_item_data['returnStatus'] != 'GOOD'
