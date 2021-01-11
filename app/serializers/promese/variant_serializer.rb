@@ -43,6 +43,7 @@ class Promese::VariantSerializer < PromeseSerializer
                   supplierCodeExternal: record.product.promese_property('supplier_code') || PromeseSetting.instance.supplier_code,
                   supplierName: record.product.promese_property('supplier_name') || PromeseSetting.instance.supplier_name,
                   articleNumber: record.id,
+                  refundable: record.product.taxons.collect(&:permalink).include?('featured-products/no-returns')
               }
           ]
       }
